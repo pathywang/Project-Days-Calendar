@@ -3,3 +3,19 @@
 export function getGreeting() {
     return "Hello";
 }
+
+export const monthMap = [
+  "January","February","March","April",
+  "May","June","July","August",
+  "September","October","November","December"
+];
+
+const monthIndex = monthMap.indexOf(dayInfo.monthName);
+
+export const dayMap = [
+  "Sunday","Monday","Tuesday","Wednesday",
+  "Thursday","Friday","Saturday"
+];
+
+const dayIndex = dayMap.indexOf(dayInfo.dayName);
+
