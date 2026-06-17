@@ -1,3 +1,5 @@
+import daysData from "./days.json" with { type: "json" };
+import { calculateCommemorativeDate } from "./common.mjs";
 
 let currentMonth = new Date().getMonth();
 let currentYear = new Date().getFullYear();
@@ -41,7 +43,7 @@ for (let year = current - 100; year <= current + 100; year++) {
 
 function ensureYearOption(year) {
   const exists = [...yearSelect.options].some(
-    option => Number(option.value) === year
+    (option) => Number(option.value) === year,
   );
 
   if (!exists) {
@@ -52,13 +54,12 @@ function ensureYearOption(year) {
   }
 }
 
-
 function renderCalendar(month = currentMonth, year = currentYear) {
   calendar.innerHTML = "";
 
-  const weekdays = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-  weekdays.forEach(day => {
+  weekdays.forEach((day) => {
     const cell = document.createElement("div");
     cell.textContent = day;
     cell.classList.add("header");
@@ -81,13 +82,25 @@ function renderCalendar(month = currentMonth, year = currentYear) {
     dayNumber.textContent = day;
     dayNumber.classList.add("day-number");
     cell.appendChild(dayNumber);
-    
+
+    // calculate if any event falls on the current day/month/year
+    daysData.forEach((event) => {
+      const commemorativeDay = calculateCommemorativeDate(year, event);
+      const targetMonthIndex = months.indexOf(event.monthName);
+
+      if (commemorativeDay === day && targetMonthIndex === month) {
+        const eventName = document.createElement("div");
+        eventName.textContent = event.name;
+        eventName.classList.add("event-name");
+        cell.appendChild(eventName);
+      }
+    });
+
     calendar.appendChild(cell);
   }
 
   const totalCells = firstDay + daysInMonth;
   const remainingCells = (7 - (totalCells % 7)) % 7;
-
 
   for (let i = 0; i < remainingCells; i++) {
     const emptyCell = document.createElement("div");
@@ -145,11 +158,3 @@ document.querySelector("#prev-btn").addEventListener("click", () => {
 });
 
 renderCalendar();
-
-import { getGreeting } from "./common.mjs";
-import daysData from "./days.json" with { type: "json" };
-
-window.onload = function () {
-  document.querySelector("body").innerText =
-    `${getGreeting()} - there are ${daysData.length} known days`;
-};
