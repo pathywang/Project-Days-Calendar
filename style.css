@@ -1,0 +1,17 @@
+#calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.day {
+  border: 1px solid black;
+  min-height: 80px;
+  padding: 4px;
+}
+
+.header {
+  font-weight: bold;
+  text-align: center;
+}
+
+
