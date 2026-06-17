@@ -1,8 +1,3 @@
-// This is a placeholder file which shows how you can access functions and data defined in other files.
-// It can be loaded into index.html.
-// Note that when running locally, in order to open a web page which uses modules, you must serve the directory over HTTP e.g. with https://www.npmjs.com/package/http-server
-// You can't open the index.html file using a file:// URL.
-import daysData from "./days.json" with { type: "json" };
 
 let currentMonth = new Date().getMonth();
 let currentYear = new Date().getFullYear();
@@ -33,17 +28,30 @@ months.forEach((month, index) => {
   option.textContent = month;
   monthSelect.appendChild(option);
 });
-monthSelect.addEventListener("change", () => {
-  currentMonth = Number(monthSelect.value);
-  renderCalendar();
-});
+
 // Populate year dropdown
-for (let year = 1900; year <= 2100; year++) {
+const current = new Date().getFullYear();
+
+for (let year = current - 100; year <= current + 100; year++) {
   const option = document.createElement("option");
   option.value = year;
   option.textContent = year;
   yearSelect.appendChild(option);
 }
+
+function ensureYearOption(year) {
+  const exists = [...yearSelect.options].some(
+    option => Number(option.value) === year
+  );
+
+  if (!exists) {
+    const option = document.createElement("option");
+    option.value = year;
+    option.textContent = year;
+    yearSelect.appendChild(option);
+  }
+}
+
 
 function renderCalendar(month = currentMonth, year = currentYear) {
   calendar.innerHTML = "";
@@ -60,7 +68,7 @@ function renderCalendar(month = currentMonth, year = currentYear) {
   const firstDay = new Date(year, month, 1).getDay();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-  for (let i = 0; i < 35; i++) {
+  for (let i = 0; i < firstDay; i++) {
     const emptyCell = document.createElement("div");
     emptyCell.classList.add("day");
     calendar.appendChild(emptyCell);
@@ -73,20 +81,20 @@ function renderCalendar(month = currentMonth, year = currentYear) {
     dayNumber.textContent = day;
     dayNumber.classList.add("day-number");
     cell.appendChild(dayNumber);
-    daysData.forEach(event => {
-      const eventDate = calculateCommemorativeDate(year, event);
-      if (eventDate.getUTCMonth() === month &&eventDate.getUTCDate() === day
-       ) {const eventName = document.createElement("div");
-          eventName.textContent = event.name;
-          eventName.classList.add("event-name");
-
-        cell.appendChild(eventName);
-      }
-    });
-
+    
     calendar.appendChild(cell);
   }
+
+  const totalCells = firstDay + daysInMonth;
+  const remainingCells = (7 - (totalCells % 7)) % 7;
+
+
+  for (let i = 0; i < remainingCells; i++) {
+    const emptyCell = document.createElement("div");
+    emptyCell.classList.add("day");
+    calendar.appendChild(emptyCell);
   }
+}
 
 // Set current month/year
 const today = new Date();
@@ -112,6 +120,8 @@ document.querySelector("#next-btn").addEventListener("click", () => {
     currentYear++;
   }
 
+  ensureYearOption(currentYear);
+
   monthSelect.value = currentMonth;
   yearSelect.value = currentYear;
 
@@ -125,6 +135,8 @@ document.querySelector("#prev-btn").addEventListener("click", () => {
     currentMonth = 11;
     currentYear--;
   }
+
+  ensureYearOption(currentYear);
 
   monthSelect.value = currentMonth;
   yearSelect.value = currentYear;
