@@ -14,4 +14,26 @@
   text-align: center;
 }
 
+/* Styling for the commemorative day event badges */
+.event-name {
+  background-color: #0056b3;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 6px;
+  margin-top: 6px;
+  border-radius: 4px;
+  text-align: left;
+  word-wrap: break-word;
+}
 
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}

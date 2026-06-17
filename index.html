@@ -1,6 +1,8 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Alex & Ping - Days-Calendar APP</title>
     <link rel="stylesheet" href="style.css" />
 
@@ -8,14 +10,21 @@
     <script type="module" src="web.mjs"></script>
   </head>
   <body>
-    <h1>Alex & Ping - Days-Calendar App</h1>
-    <div id="controls">
-      <button id="prev-btn">Prev</button>
-      <button id="next-btn">Next</button>
-      <select id="month-select"></select>
-      <select id="year-select"></select>
-    </div>
+    <main>
+      <h1>Alex & Ping - Days-Calendar App</h1>
 
-    <div id="calendar"></div>
+      <div id="controls">
+        <button id="prev-btn" aria-label="Previous Month">Prev</button>
+        <button id="next-btn" aria-label="Next Month">Next</button>
+
+        <label for="month-select" class="visually-hidden">Month:</label>
+        <select id="month-select" aria-label="Select Month"></select>
+
+        <label for="year-select" class="visually-hidden">Year:</label>
+        <select id="year-select" aria-label="Select Year"></select>
+      </div>
+
+      <div id="calendar" aria-label="Calendar Grid"></div>
+    </main>
   </body>
 </html>
