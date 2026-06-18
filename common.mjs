@@ -1,7 +1,3 @@
-export function getGreeting() {
-  return "Hello";
-}
-
 // Function to calculate the commemorative date based on the provided year and day configuration
 export function calculateCommemorativeDate(year, dayConfig) {
   // Month Object

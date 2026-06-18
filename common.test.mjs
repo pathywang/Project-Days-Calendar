@@ -3,10 +3,6 @@ import { getGreeting } from "./common.mjs";
 import assert from "node:assert";
 import test from "node:test";
 
-test("Greeting is correct", () => {
-  assert.equal(getGreeting(), "Hello");
-});
-
 test("Ada Lovelace Day in 2024 is on the second Tuesday of October (the 8th)", () => {
   //1. simulate the card data for Ada Lovelace Day
   const adaConfig = {
